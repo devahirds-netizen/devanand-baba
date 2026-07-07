@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev Ahir — AI Creative Director & Motion Designer</title>
+<style>
+  :root {
+    --ink: #101113;
+    --ink-2: #17181B;
+    --paper: #EDEAE2;
+    --teal: #12B5A6;
+    --orange: #FF6A3D;
+    --grey: #8B8D8F;
+    --line: rgba(237,234,226,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Work Sans', 'Segoe UI', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mono {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    letter-spacing: 0.03em;
+  }
+
+  .display {
+    font-family: 'Oswald', 'Arial Narrow', sans-serif;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .ticker-bar {
+    border-bottom: 1px solid var(--line);
+    background: var(--ink-2);
+    overflow: hidden;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .ticker-track {
+    display: inline-flex;
+    padding: 7px 0;
+    font-size: 11px;
+    color: var(--grey);
+    animation: scroll-left 34s linear infinite;
+  }
+  .ticker-track span { padding: 0 22px; border-right: 1px solid var(--line); }
+  .ticker-track span.hl { color: var(--orange); }
+  @keyframes scroll-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 48px;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 33px;
+    background: rgba(16,17,19,0.9);
+    backdrop-filter: blur(6px);
+    z-index: 19;
+  }
+  .topbar .mark { font-size: 14px; font-weight: 600; }
+  .topbar .mark .dot { color: var(--teal); }
+  .topbar nav { display: flex; gap: 32px; font-size: 12px; }
+  .topbar nav a { text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey); transition: color .2s; }
+  .topbar nav a:hover { color: var(--paper); }
+
+  .hero {
+    padding: 90px 48px 70px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .hero-copy {}
+  .hero-frame {
+    position: relative;
+    border: 1px solid var(--line);
+    aspect-ratio: 854/1068;
+    max-width: 480px;
+    width: 100%;
+    overflow: hidden;
+    background: var(--ink-2);
+  }
+  .hero-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(1.05) contrast(1.03);
+  }
+  .hero-frame .corner {
+    position: absolute;
+    width: 16px; height: 16px;
+    border: 1px solid var(--orange);
+    opacity: 0.9;
+  }
+  .hero-frame .corner.tl { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+  .hero-frame .corner.tr { top: 10px; right: 10px; border-width: 1px 1px 0 0; }
+  .hero-frame .corner.bl { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; }
+  .hero-frame .corner.br { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+  .hero-frame .fc {
+    position: absolute;
+    bottom: 12px; left: 14px;
+    font-size: 11px;
+    color: var(--paper);
+    background: rgba(16,17,19,0.55);
+    padding: 3px 8px;
+  }
+  .hero-frame .fc.right { left: auto; right: 14px; color: var(--orange); }
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--teal);
+    margin-bottom: 24px;
+  }
+  .rec-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--orange);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+  .hero h1 { font-size: clamp(44px, 8vw, 108px); }
+  .hero h1 .accent { color: var(--teal); }
+  .hero .role {
+    margin-top: 10px;
+    font-size: clamp(16px, 2vw, 22px);
+    color: var(--grey);
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .hero .sub { max-width: 560px; margin-top: 26px; font-size: 17px; color: #C9C6BC; }
+
+  .scrub-line { margin-top: 44px; position: relative; height: 2px; background: var(--line); max-width: 560px; }
+  .scrub-line .head {
+    position: absolute;
+    top: -5px;
+    width: 12px; height: 12px;
+    background: var(--orange);
+    transform: rotate(45deg);
+    animation: scrub 5s ease-in-out infinite;
+  }
+  @keyframes scrub {
+    0% { left: 0%; }
+    50% { left: 92%; }
+    100% { left: 0%; }
+  }
+  .scrub-time { margin-top: 10px; font-size: 12px; color: var(--grey); }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); }
+  .stat { padding: 36px 32px; border-right: 1px solid var(--line); }
+  .stat:last-child { border-right: none; }
+  .stat .num { font-family: 'Oswald', sans-serif; font-size: clamp(28px,4vw,44px); color: var(--paper); }
+  .stat .num .u { color: var(--orange); }
+  .stat .label { margin-top: 8px; font-size: 12px; color: var(--grey); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .section-label { display: flex; align-items: baseline; gap: 16px; padding: 0 48px; margin: 70px 0 32px; }
+  .section-label .tc { font-size: 12px; color: var(--orange); }
+  .section-label h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--grey); }
+  .section-label .rule { flex: 1; height: 1px; background: var(--line); }
+
+  .specialties {
+    padding: 0 48px 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .spec-cell { background: var(--ink); padding: 22px 20px; font-size: 14px; transition: background .2s; }
+  .spec-cell:hover { background: var(--ink-2); }
+  .spec-cell .tag { display: block; font-size: 10px; color: var(--teal); margin-bottom: 8px; }
+
+  .tools { padding: 0 48px 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .tool-chip {
+    border: 1px solid var(--line);
+    padding: 9px 16px;
+    font-size: 12px;
+    color: #D8D5CB;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tool-chip::before { content: ''; width: 6px; height: 6px; background: var(--teal); }
+
+  .work { padding: 0 48px 40px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+  .reel { border: 1px solid var(--line); background: var(--ink-2); }
+  .reel-frame {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: repeating-linear-gradient(45deg, #1b1c1f 0px, #1b1c1f 12px, #1a1b1e 12px, #1a1b1e 24px);
+  }
+  .reel-frame .play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .reel-frame .play::before {
+    content: '';
+    width: 0; height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 18px solid var(--paper);
+    opacity: 0.85;
+    transition: transform .3s;
+  }
+  .reel:hover .play::before { transform: scale(1.15); }
+  .reel-frame .scan {
+    position: absolute;
+    top: -100%; left: 0; right: 0;
+    height: 40%;
+    background: linear-gradient(180deg, transparent, rgba(18,181,166,0.18), transparent);
+    transition: top .5s ease;
+  }
+  .reel:hover .scan { top: 130%; }
+  .reel-frame .fc { position: absolute; bottom: 10px; right: 12px; font-size: 11px; color: var(--grey); }
+  .reel-body { padding: 18px 20px; }
+  .reel-body h3 { font-size: 17px; font-weight: 600; }
+  .reel-body .meta { margin-top: 6px; font-size: 12px; color: var(--grey); }
+  .reel-body .meta .split { color: var(--orange); margin: 0 6px; }
+
+  .about {
+    padding: 0 48px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 80px;
+  }
+  .about p { color: #C9C6BC; margin-bottom: 16px; max-width: 520px; }
+  .about .quote {
+    border-left: 2px solid var(--teal);
+    padding-left: 20px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    color: var(--paper);
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  .contact { padding: 100px 48px 60px; }
+  .contact h2 { font-size: clamp(34px, 6vw, 68px); max-width: 760px; }
+  .contact h2 .accent { color: var(--orange); }
+  .contact .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 36px;
+    padding: 16px 28px;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: background .2s, color .2s;
+  }
+  .contact .cta:hover { background: var(--teal); color: var(--ink); }
+
+  footer {
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--grey);
+  }
+
+  .video-embed {
+    padding: 0 0 24px;
+  }
+  .video-frame {
+    position: relative;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--ink-2);
+  }
+  .video-frame .bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 48px;
+    border-bottom: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--grey);
+  }
+  .video-frame .bar .dots { display: flex; gap: 6px; }
+  .video-frame .bar .dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+  .video-frame iframe {
+    width: 100%;
+    height: 940px;
+    border: none;
+    display: block;
+    background: var(--ink);
+  }
+  .work-cta {
+    padding: 20px 48px 40px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .work-cta a {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--teal);
+    border-bottom: 1px solid var(--teal);
+    padding-bottom: 3px;
+  }
+  .work-cta a:hover { color: var(--orange); border-color: var(--orange); }
+
+  @media (max-width: 900px) {
+    .work, .about { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .specialties { grid-template-columns: repeat(2, 1fr); }
+    .hero { grid-template-columns: 1fr; }
+    .hero-frame { max-width: 360px; }
+    .video-frame iframe { height: 560px; }
+  }
+  @media (max-width: 600px) {
+    .topbar nav { display: none; }
+    .hero, .work, .about, .contact, .section-label, .topbar, footer, .specialties, .tools { padding-left: 22px; padding-right: 22px; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stat { border-bottom: 1px solid var(--line); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+  <div class="ticker-bar">
+    <div class="ticker-track mono">
+      <span class="hl">● REC</span>
+      <span>200+ AI-GENERATED VIDEOS</span>
+      <span>500+ AI-GENERATED IMAGES</span>
+      <span>6+ YEARS EXPERIENCE</span>
+      <span>PROMPT ENGINEERING</span>
+      <span>AI CREATIVE DIRECTION</span>
+      <span class="hl">● REC</span>
+      <span>200+ AI-GENERATED VIDEOS</span>
+      <span>500+ AI-GENERATED IMAGES</span>
+      <span>6+ YEARS EXPERIENCE</span>
+      <span>PROMPT ENGINEERING</span>
+      <span>AI CREATIVE DIRECTION</span>
+    </div>
+  </div>
+
+  <div class="topbar">
+    <div class="mark mono">DEV AHIR<span class="dot">.</span></div>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow mono"><span class="rec-dot"></span> AVAILABLE FOR FREELANCE & COLLABORATIONS</div>
+      <h1 class="display">Dev <span class="accent">Ahir</span></h1>
+      <div class="role">AI Creative Director &amp; Senior Motion Designer</div>
+      <p class="sub">I create cinematic visuals, AI-powered commercials, motion graphics, and high-performing digital campaigns — combining 6+ years of motion design craft with the fastest-moving generative AI tools, for brands that want to look ahead of the curve.</p>
+      <div class="scrub-line"><div class="head"></div></div>
+      <div class="scrub-time mono">00:00:00:00 — SCROLL TO PLAY</div>
+    </div>
+    <div class="hero-frame">
+      <img src="assets/dev-photo.jpg" alt="Dev Ahir at his desk">
+      <div class="corner tl"></div>
+      <div class="corner tr"></div>
+      <div class="corner bl"></div>
+      <div class="corner br"></div>
+      <div class="fc mono">DEV_AHIR.MOV</div>
+      <div class="fc right mono">● REC</div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="num">200<span class="u">+</span></div>
+      <div class="label">AI-Generated Videos</div>
+    </div>
+    <div class="stat">
+      <div class="num">500<span class="u">+</span></div>
+      <div class="label">AI-Generated Images</div>
+    </div>
+    <div class="stat">
+      <div class="num">6<span class="u">+</span></div>
+      <div class="label">Years Experience</div>
+    </div>
+    <div class="stat">
+      <div class="num">10<span class="u">+</span></div>
+      <div class="label">AI Tools Mastered</div>
+    </div>
+  </section>
+
+  <div class="section-label">
+    <span class="tc mono">00:01</span>
+    <h2>Specialties</h2>
+    <div class="rule"></div>
+  </div>
+
+  <div class="specialties">
+    <div class="spec-cell"><span class="tag mono">01</span>AI Creative Direction</div>
+    <div class="spec-cell"><span class="tag mono">02</span>Motion Design</div>
+    <div class="spec-cell"><span class="tag mono">03</span>AI-Generated Commercials</div>
+    <div class="spec-cell"><span class="tag mono">04</span>Product Advertising</div>
+    <div class="spec-cell"><span class="tag mono">05</span>Performance Marketing Creatives</div>
+    <div class="spec-cell"><span class="tag mono">06</span>Visual Storytelling</div>
+    <div class="spec-cell"><span class="tag mono">07</span>Prompt Engineering</div>
+    <div class="spec-cell"><span class="tag mono">08</span>AI Image &amp; Video Generation</div>
+  </div>
+
+  <div class="section-label">
+    <span class="tc mono">00:02</span>
+    <h2>Toolkit</h2>
+    <div class="rule"></div>
+  </div>
+
+  <div class="tools">
+    <div class="tool-chip mono">After Effects</div>
+    <div class="tool-chip mono">Premiere Pro</div>
+    <div class="tool-chip mono">Photoshop</div>
+    <div class="tool-chip mono">DaVinci Resolve</div>
+    <div class="tool-chip mono">ChatGPT</div>
+    <div class="tool-chip mono">Midjourney</div>
+    <div class="tool-chip mono">Runway</div>
+    <div class="tool-chip mono">Kling AI</div>
+    <div class="tool-chip mono">Veo</div>
+    <div class="tool-chip mono">Freepik AI</div>
+  </div>
+
+  <div class="section-label" id="work">
+    <span class="tc mono">00:03</span>
+    <h2>Selected Reels</h2>
+    <div class="rule"></div>
+  </div>
+
+  <section class="video-embed">
+    <div class="video-frame">
+      <div class="bar mono">
+        <span>WORK_REELS.DRIVE</span>
+        <span class="dots"><span></span><span></span><span></span></span>
+      </div>
+      <iframe src="https://drive.google.com/embeddedfolderview?id=1xawERXHF_ZxPN4KUaCr3kKJskilvGzKm#grid" loading="lazy" title="Dev Ahir's work reels"></iframe>
+    </div>
+  </section>
+  <div class="work-cta">
+    <a href="https://drive.google.com/drive/folders/1xawERXHF_ZxPN4KUaCr3kKJskilvGzKm?usp=sharing" target="_blank" rel="noopener">Open full folder on Drive →</a>
+  </div>
+
+  <div class="section-label" id="about">
+    <span class="tc mono">00:04</span>
+    <h2>About</h2>
+    <div class="rule"></div>
+  </div>
+
+  <section class="about">
+    <div>
+      <p>I'm an AI Creative Director and Senior Motion Designer with 6+ years of experience creating cinematic visuals, AI-powered commercials, motion graphics, and high-performing digital campaigns.</p>
+      <p>I work across the full pipeline — from prompt engineering and AI image/video generation to motion design and final grade — using tools like After Effects, Premiere Pro, DaVinci Resolve, Midjourney, Runway, Kling AI, Veo, and Freepik AI.</p>
+      <p>Across my career I've produced 200+ AI-generated videos and 500+ AI-generated images for brands and campaigns.</p>
+    </div>
+    <div class="quote">
+      "My mission is to combine creativity, storytelling, and artificial intelligence to create visually stunning, high-impact content for global brands."
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="eyebrow mono"><span class="rec-dot"></span> OPEN TO FREELANCE &amp; COLLABORATIONS</div>
+    <h2 class="display">Let's create the <span class="accent">next</span> frame.</h2>
+    <a class="cta mono" href="mailto:hello@devahir.design">Start a project →</a>
+  </section>
+
+  <footer>
+    <span class="mono">© 2026 DEV AHIR</span>
+    <span class="mono">AI CREATIVE DIRECTOR / MOTION DESIGNER</span>
+  </footer>
+
+</body>
+</html>
